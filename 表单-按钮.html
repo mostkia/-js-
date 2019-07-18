@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+	<title>表单-按钮</title>
+    <meta name="keywords" content="关键词" />
+	<meta name="description" content="网页描述" />
+    <style>
+        /*REST-CSS*/
+        html{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            width: 100%;
+            height: auto;
+            min-height: 100%;
+            margin: 0px;
+            padding: 0px;
+            position: absolute;
+            font-family: "Microsoft YaHei";
+            background-color: #FFF;
+        }
+        a{text-decoration: none;}
+        ul{margin: 0px;padding: 0px;}
+        li{list-style: none;}
+        em{font-style: normal;}
+        img{border: none;}
+        input:focus,
+        select:focus{
+            outline: none;
+        }
+        
+        
+        /*内容容器*/
+        #content{
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0px auto;
+            max-width: 800px;
+            background-color: #FFF;
+        }
+        /*通用表单样式*/
+        .hex_form{
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0px auto;
+            padding: 10px 10px;
+            box-sizing: border-box;
+        }
+        /*表单子区块通用样式*/
+        .hex_form > span{
+            margin: 10px auto;
+        }
+        
+        
+        /*按钮区块自定义CSS开始*/
+        .hex_form_btn{
+            display: block;
+            position: relative;
+        }
+        .hf_btn_info{
+            display: block;
+            position: relative;
+            width: 100%;
+            height: auto;
+            line-height: 20px;
+            padding: 5px 80px 5px 0px;
+            box-sizing: border-box;
+        }
+        .hf_btn{
+            width: 45px;
+            height: 22px;
+            margin: auto;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            border-radius: 50px 50px;
+            -webkit-border-radius: 50px 50px;
+            transition: All 0.2s ease-in-out;
+            -webkit-transition: All 0.2s ease-in-out;
+        }
+        .hf_btn:before{
+            content: '';
+            display: block;
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            box-sizing: border-box;
+            border-radius: 50% 50%;
+            -webkit-border-radius: 50% 50%;
+            transition: All 0.2s ease-in-out;
+            -webkit-transition: All 0.2s ease-in-out;
+        }
+        .hf_btn_df{
+            border: 2px #BBB solid;
+            background-color: #EEE;
+        }
+        .hf_btn_df:before{
+            top: 0px;
+            left: 0px;
+            background-color: #fff;
+            box-shadow: 2px 1px 3px #777;
+            -webkit-box-shadow: 2px 1px 3px #777;
+        }
+        .hf_btn_hov{
+            border: 2px #af0700 solid;
+            background-color: #af0700;
+        }
+        .hf_btn_hov:before{
+            top: 0px;
+            left: 100%;
+            margin-left: -22px;
+            background-color: #fff;
+            box-shadow: -2px 1px 3px #7e0500;
+            -webkit-box-shadow: -2px 1px 3px #7e0500;
+        }
+        .hf_btn_val{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <form class="hex_form" action="A.PHP" method="POST">
+            <span class="hex_form_btn">
+                <em class="hf_btn_info">按钮阵列1[关闭]</em>
+                <div class="hf_btn hf_btn_df"></div>
+                <input class="hf_btn_val" name="hf_btn_val_01" type="hidden" value="" />
+            </span>
+            <span class="hex_form_btn">
+                <em class="hf_btn_info">按钮阵列2[开启]</em>
+                <div class="hf_btn hf_btn_hov"></div>
+                <input class="hf_btn_val" name="hf_btn_val_02" type="hidden" value="" />
+            </span>
+            <span class="hex_form_btn">
+                <em class="hf_btn_info">按钮阵列3[关闭]</em>
+                <div class="hf_btn hf_btn_df"></div>
+                <input class="hf_btn_val" name="hf_btn_val_03" type="hidden" value="" />
+            </span>
+        </form>
+    </div>
+</body>
+<script>
+    //等待页面加载完成
+    window.addEventListener('load',function(){
+        //按钮交互实现
+        function hf_btn_box(gouzi){
+            var hf_btn = document.querySelectorAll('.hex_form_btn > .hf_btn');
+            for(var i=0; i<hf_btn.length; i++){
+                hf_btn[i].onclick = function(){
+                    //创建一个开关记录变量
+                    var intVal = null;
+                    //获取input控件
+                    var hf_btn_val = this.parentNode.querySelector('.hf_btn_val');
+                    //根据每个控件的Class来定义开关状态
+                    var sclass = this.className.split(' ');
+                    //循环筛选反转Class，防止多个Class的干扰
+                    for(var s=0; s<sclass.length; s++){
+                        if(sclass[s] == 'hf_btn_df'){
+                            //记录开关状态
+                            intVal = 'ON';
+                            sclass[s] = 'hf_btn_hov';
+                            break;
+                        }
+                        if(sclass[s] == 'hf_btn_hov'){
+                            //记录开关状态
+                            intVal = 'OFF';
+                            sclass[s] = 'hf_btn_df';
+                            break;
+                        }
+                    }
+                    //合并处理后的Class
+                    this.className = sclass.join(' ');
+                    //将开关当前状态赋值给input控件
+                    hf_btn_val.value = intVal;
+                    //检测回调函数是否存在
+                    if(gouzi != null){
+                        //执行回调函数
+                        eval(gouzi(hf_btn_val));
+                    }
+                }
+            }
+            //页面初始化单选赋值
+            (function(){
+                //获取所有input控件
+                var hf_btn_val = document.querySelectorAll('.hf_btn_val');
+                for(var i=0; i<hf_btn_val.length; i++){
+                    //根据当前input控件，获得同一个组件内的选中对象
+                    var hf_btn = hf_btn_val[i].parentNode.querySelector('.hf_btn');
+                    //根据Class，来初始化按钮，正则匹配符合条件的参数
+                    if(/hf_btn_hov/.test(hf_btn.className)){
+                        //存储到当前input控件内
+                        hf_btn_val[i].value = 'ON';
+                    }else{
+                        //存储到当前input控件内
+                        hf_btn_val[i].value = 'OFF';
+                    }
+                }
+                //检测回调函数是否存在
+                if(gouzi != null){
+                    //执行回调函数
+                    eval(gouzi(hf_btn_val));
+                }
+            })();
+        }
+        //执行按钮控制封装
+        hf_btn_box(function(val){
+            //定义回调函数
+            //(不需要使用NULL)
+            if(val.length > 0){
+                for(var i=0; i<val.length; i++){
+                    alert(val[i].name + ' & ' + val[i].value);
+                }
+            }else{
+                alert(val.name + ' & ' + val.value);
+            }
+        });
+    });
+</script>
+</html>
